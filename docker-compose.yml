@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  jupyterr:
+    build:
+      context: .
+      dockerfile: docker/jupyter/Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/tf/notebooks
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
